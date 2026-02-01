@@ -148,18 +148,17 @@ class IsolateClient extends TypedLink {
     _debugAssertUpdateResultTransferrable(request);
 
     return _handleStreamCommand<OperationResponse<TData, TVars>>(
-        (port) => RequestCommand(port.sendPort, request),
-        (response, sink) {
-          final r = response as OperationResponse;
-          sink.add(OperationResponse<TData, TVars>(
-            operationRequest: request,
-            linkException: r.linkException,
-            graphqlErrors: r.graphqlErrors,
-            dataSource: r.dataSource,
-            extensions: r.extensions,
-            data: r.data,
-          ));
-        });
+        (port) => RequestCommand(port.sendPort, request), (response, sink) {
+      final r = response as OperationResponse;
+      sink.add(OperationResponse<TData, TVars>(
+        operationRequest: request,
+        linkException: r.linkException,
+        graphqlErrors: r.graphqlErrors,
+        dataSource: r.dataSource,
+        extensions: r.extensions,
+        data: r.data,
+      ));
+    });
   }
 
   Stream<T> _handleStreamCommand<T>(
